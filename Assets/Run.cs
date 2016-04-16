@@ -34,7 +34,8 @@ public class Run : MonoBehaviour {
 	//text for data number display
 	public Text maxText;
 	public Text curText;
-	
+
+	private Ping ping;
 	
 	public Text debugText;
 	
@@ -77,11 +78,8 @@ public class Run : MonoBehaviour {
 		
 		
 		//web player initial ping
-		//ping = new Ping(IPs[server]);
-		
-		//GL javascript initial ping, -1 means no response
-		webPing = -1;
-		Application.ExternalCall("RequestPing");
+		ping = new Ping(IPs[server]);
+
 	}
 	
 	public void UpdateServer(){
@@ -89,11 +87,8 @@ public class Run : MonoBehaviour {
 		server = (int)slider.value;
 		
 		//web player ping
-		//ping = new Ping(IPs[server]);
-		
-		//GL ping
-		webPing = -1;
-		Application.ExternalCall("RequestPing");
+		ping = new Ping(IPs[server]);
+
 	}
 	
 	void Update () {
@@ -110,17 +105,10 @@ public class Run : MonoBehaviour {
 				newping = 0;
 			}
 			
-			/*
+
 			//web player ping
 			if(ping.isDone){
 				newping = ping.time;
-			}*/
-			
-			//GL ping
-			if (webPing != -1){
-				newping = webPing;
-				webPing = -1;
-				Application.ExternalCall("RequestPing");
 			}
 			
 			timer = timeout;
@@ -149,18 +137,10 @@ public class Run : MonoBehaviour {
 			}
 			
 			//web player ping
-			//ping = new Ping(IPs[server]);
-			
-			//GL ping
-			webPing = -1;
-			Application.ExternalCall("RequestPing");
+			ping = new Ping(IPs[server]);
+
 
 		}
-	}
-	
-	//for getting javascript ping value back from browser
-	void GetPing(string newWebPing){
-		webPing = int.Parse(newWebPing);
 	}
 	
 	
